@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Quest
 {
     // An instance of the Adventurer class is an object that will undergo some challenges
@@ -45,5 +48,17 @@ namespace Quest
 
             return $"Adventurer, {Name}, is {status}";
         }
+
+        public List<Robe> ColorfulRobe {get;set;} = new List<Robe>{};
+        public void SetColorfulRobe(List<Robe> robe)
+        {
+            ColorfulRobe = robe;
+        }
+        public string GetDescription(Robe robe, string name)
+        {
+            return $"{name} is fitted with a dashing {robe.Length}inch robe splattered with {robe.Colors} colors.";
+        }
     }
+
+
 }

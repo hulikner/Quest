@@ -14,16 +14,18 @@ namespace Quest
         // This is a mutable property it has a "get" and a "set"
         //  So it can be read and changed by any code in the application
         public int Awesomeness { get; set; }
+        public int Correct { get; set; }
 
         // A constructor to make a new Adventurer object with a given name
         public Robe ColorfulRobe { get; } = new Robe();
         public Hat AdventurerHat { get; } = new Hat();
-        public Adventurer(string name, Robe robe, Hat hat)
+        public Adventurer(string name, Robe robe, Hat hat, int correct)
         {
             Name = name;
             Awesomeness = 50;
             ColorfulRobe= robe;
             AdventurerHat = hat;
+            Correct = correct;
         }
 
 

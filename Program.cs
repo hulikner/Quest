@@ -27,20 +27,22 @@ namespace Quest
             Hat newHat = new Hat();
             newHat.ShininessLevel= 10;
             Prize yourPrize = new Prize("Gold");
-            
+            int numberCorrect = 0;
             
             Console.WriteLine("Enter your name");
             string name = Console.ReadLine();
-            Adventurer theAdventurer = new Adventurer(name, newRobe, newHat);
+            Adventurer theAdventurer = new Adventurer(name, newRobe, newHat, numberCorrect);
             Console.WriteLine(theAdventurer.GetDescription(newRobe, name, newHat));
-            Challenge twoPlusTwo = new Challenge("2 + 2?", 4, 10);
+            Challenge twoPlusTwo = new Challenge("2 + 2?", 4, 10, numberCorrect);
+            Challenge squareRoot = new Challenge("What is the square root of infinity?", 0, 50, numberCorrect);
+            Challenge whatIsOne = new Challenge("What is one?", 1, 50, numberCorrect);
             Challenge theAnswer = new Challenge(
-                "What's the answer to life, the universe and everything?", 42, 25);
+                "What's the answer to life, the universe and everything?", 42, 25, numberCorrect);
             Challenge whatSecond = new Challenge(
-                "What is the current second?", DateTime.Now.Second, 50);
+                "What is the current second?", DateTime.Now.Second, 50, numberCorrect);
 
             int randomNumber = new Random().Next() % 10;
-            Challenge guessRandom = new Challenge("What number am I thinking of?", randomNumber, 25);
+            Challenge guessRandom = new Challenge("What number am I thinking of?", randomNumber, 25, numberCorrect);
 
             Challenge favoriteBeatle = new Challenge(
                 @"Who's your favorite Beatle?
@@ -49,7 +51,7 @@ namespace Quest
                     3) George
                     4) Ringo
                 ",
-                4, 20
+                4, 20, numberCorrect
             );
 
             // "Awesomeness" is like our Adventurer's current "score"
@@ -72,14 +74,26 @@ namespace Quest
                 theAnswer,
                 whatSecond,
                 guessRandom,
-                favoriteBeatle
+                favoriteBeatle,
+                squareRoot
             };
+            
 
             // Loop through all the challenges and subject the Adventurer to them
             string playAgain = "yes";
             while (playAgain == "yes")
             {
-                foreach (Challenge challenge in challenges)
+                List<Challenge> challengesIndex = new List<Challenge>();
+                var random = new Random();
+                while (challengesIndex.Count < 6) 
+                {
+                    int candidate = random.Next(challenges.Count);
+                    if (!challengesIndex.Contains(challenges[candidate])) 
+                    {
+                    challengesIndex.Add(challenges[candidate]);
+                    }
+                }
+                foreach (Challenge challenge in challengesIndex)
                 {
                     challenge.RunChallenge(theAdventurer);
                 }
@@ -98,9 +112,13 @@ namespace Quest
                 {
                     Console.WriteLine("I guess you did...ok? ...sorta. Still, you should get out of my sight.");
                 }
+                theAdventurer.Correct = theAdventurer.Correct * 10;
                 Console.WriteLine();
                 Console.WriteLine(yourPrize.ShowPrize(theAdventurer));
-                Console.WriteLine();
+                Console.WriteLine(theAdventurer.Correct);
+                Console.WriteLine(theAdventurer.Awesomeness);
+                theAdventurer.Awesomeness = theAdventurer.Awesomeness + theAdventurer.Correct;
+                Console.WriteLine(theAdventurer.Awesomeness);
                 Console.WriteLine("Would you like to play again?");
                 playAgain = Console.ReadLine();
             }

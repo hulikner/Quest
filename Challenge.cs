@@ -11,17 +11,18 @@ namespace Quest
         private string _text;
         private int _correctAnswer;
         private int _awesomenessChange;
-
+        private int _numberCorrect;
 
         // A constructor for the Challenge
         // We can tell it's a constructor because it has the same name as the class 
         //   and it doesn't specify a return type
         // Note the constructor parameters and what is done with them
-        public Challenge(string text, int correctAnswer, int awesomenessChange)
+        public Challenge(string text, int correctAnswer, int awesomenessChange, int numberCorrect)
         {
             _text = text;
             _correctAnswer = correctAnswer;
             _awesomenessChange = awesomenessChange;
+            _numberCorrect = numberCorrect;
         }
 
         // This method will take an Adventurer object and make that Adventurer perform the challenge
@@ -29,13 +30,14 @@ namespace Quest
         {
             Console.Write($"{_text}: ");
             string answer = Console.ReadLine();
-
+            
             int numAnswer;
             bool isNumber = int.TryParse(answer, out numAnswer);
 
             Console.WriteLine();
             if (isNumber && numAnswer == _correctAnswer)
-            {
+            {   
+                adventurer.Correct++;
                 Console.WriteLine("Well Done!");
 
                 // Note how we access an Adventurer object's property

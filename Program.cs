@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // Every class in the program is defined within the "Quest" namespace
 // Classes within the same namespace refer to one another without a "using" statement
@@ -15,22 +16,23 @@ namespace Quest
             //   a correct answer
             //   a number of awesome points to gain or lose depending on the success of the challenge
             List<string> colors = new List<string>();
-                colors.Add("black");
-                colors.Add("green");
-                colors.Add("blue");
+            colors.Add("black");
+            colors.Add("green");
+            colors.Add("blue");
+
+            Robe newRobe = new Robe();
+            newRobe.Colors = colors;
+            newRobe.Length = 200;
+            newRobe.Colors.Add("silver");
+            Hat newHat = new Hat();
+            newHat.ShininessLevel= 10;
+            Prize yourPrize = new Prize("Gold");
             
-            List<Robe> newRobe = new List<Robe>();
-            {
-            new Robe()
-            {
-                Colors = colors,
-                Length = 200
-            };
-            }
-            SetColorfulRobe newColorfulRobe = new SetColorfulRobe(newRobe);
+            
             Console.WriteLine("Enter your name");
             string name = Console.ReadLine();
-            Adventurer playerName = new Adventurer(name);
+            Adventurer theAdventurer = new Adventurer(name, newRobe, newHat);
+            Console.WriteLine(theAdventurer.GetDescription(newRobe, name, newHat));
             Challenge twoPlusTwo = new Challenge("2 + 2?", 4, 10);
             Challenge theAnswer = new Challenge(
                 "What's the answer to life, the universe and everything?", 42, 25);
@@ -60,7 +62,7 @@ namespace Quest
             int maxAwesomeness = 100;
 
             // Make a new "Adventurer" object using the "Adventurer" class
-            Adventurer theAdventurer = new Adventurer(name);
+            // Adventurer theAdventurer = new Adventurer(name);
 
             // A list of challenges for the Adventurer to complete
             // Note we can use the List class here because have the line "using System.Collections.Generic;" at the top of the file.
@@ -77,32 +79,33 @@ namespace Quest
             string playAgain = "yes";
             while (playAgain == "yes")
             {
-            foreach (Challenge challenge in challenges)
-            {
-                challenge.RunChallenge(theAdventurer);
+                foreach (Challenge challenge in challenges)
+                {
+                    challenge.RunChallenge(theAdventurer);
+                }
+
+                // This code examines how Awesome the Adventurer is after completing the challenges
+                // And praises or humiliates them accordingly
+                if (theAdventurer.Awesomeness >= maxAwesomeness)
+                {
+                    Console.WriteLine("YOU DID IT! You are truly awesome!");
+                }
+                else if (theAdventurer.Awesomeness <= minAwesomeness)
+                {
+                    Console.WriteLine("Get out of my sight. Your lack of awesomeness offends me!");
+                }
+                else
+                {
+                    Console.WriteLine("I guess you did...ok? ...sorta. Still, you should get out of my sight.");
+                }
+                Console.WriteLine();
+                Console.WriteLine(yourPrize.ShowPrize(theAdventurer));
+                Console.WriteLine();
+                Console.WriteLine("Would you like to play again?");
+                playAgain = Console.ReadLine();
             }
 
-            // This code examines how Awesome the Adventurer is after completing the challenges
-            // And praises or humiliates them accordingly
-            if (theAdventurer.Awesomeness >= maxAwesomeness)
-            {
-                Console.WriteLine("YOU DID IT! You are truly awesome!");
-            }
-            else if (theAdventurer.Awesomeness <= minAwesomeness)
-            {
-                Console.WriteLine("Get out of my sight. Your lack of awesomeness offends me!");
-            }
-            else
-            {
-                Console.WriteLine("I guess you did...ok? ...sorta. Still, you should get out of my sight.");
-            }
 
-            Console.WriteLine();
-            Console.WriteLine("Would you like to play again?");
-            playAgain = Console.ReadLine();
-            }
-           
-               
         }
     }
 }
